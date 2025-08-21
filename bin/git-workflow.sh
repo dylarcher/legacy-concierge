@@ -380,7 +380,7 @@ init_workflow() {
     # Create or update .gitignore
     cat > .gitignore << 'EOF'
 # WordPress Core
-/wordpress/
+/legacy-concierge/
 wp-config-sample.php
 wp-config.php
 .htaccess

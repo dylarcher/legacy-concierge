@@ -1,7 +1,9 @@
 # Legacy Concierge WordPress - Complete Project Guide
 
 **Project Status**: Production Ready | **Last Updated**: August 21, 2025
-**Environment**: Docker Containerized WordPress with MySQL 8.0
+**Environment**: Docker Containerized├── 🖼️  sigimg/              # Signature images
+├── 📂 legacy-concierge/     # WordPress core (Composer managed)
+├── 🎭 wp-content/           # Themes, plugins, uploadsrdPress with MySQL 8.0
 
 ---
 
@@ -22,8 +24,8 @@ docker-compose up -d
 
 ### Access Points
 
-- **Website**: <http://localhost:8080> or <http://localhost:8080/wordpress/>
-- **WordPress Admin**: <http://localhost:8080/wordpress/wp-admin/>
+- **Website**: <http://localhost:8080> or <http://localhost:8080/legacy-concierge/>
+- **WordPress Admin**: <http://localhost:8080/legacy-concierge/wp-admin/>
 - **Database Admin (phpMyAdmin)**: <http://localhost:8081>
 - **Database**: `legacyh2_a2wp612` with table prefix `wpyu_`
 
@@ -102,8 +104,8 @@ docker-compose restart
 
 For 404 errors accessing wp-admin:
 
-- Use the correct path: `http://localhost:8080/wordpress/wp-admin/`
-- The WordPress installation is in a `/wordpress/` subdirectory
+- Use the correct path: `http://localhost:8080/legacy-concierge/wp-admin/`
+- The WordPress installation is in a `/legacy-concierge/` subdirectory
 
 ### Container Health Check Failures
 
@@ -362,7 +364,7 @@ docker-compose exec mysql mysqlcheck -u wpuser -p --optimize --all-databases
 
 ### Immediate Actions
 
-1. **Complete WordPress Installation**: Visit <http://localhost:8080/wordpress/>
+1. **Complete WordPress Installation**: Visit <http://localhost:8080/legacy-concierge/>
 2. **Configure Database**: Use credentials from .env file
 3. **Activate Theme**: Upload and activate your theme
 4. **Configure Plugins**: Set up essential plugins

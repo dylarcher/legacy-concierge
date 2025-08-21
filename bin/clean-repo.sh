@@ -42,7 +42,7 @@ echo -e "${BLUE}Starting cleanup...${NC}"
 
 # Remove WordPress core files (managed by Composer)
 echo -e "${YELLOW}Removing WordPress core files...${NC}"
-rm -rf wordpress/
+rm -rf legacy-concierge/
 rm -f wp-*.php
 rm -f xmlrpc.php
 rm -f index.php

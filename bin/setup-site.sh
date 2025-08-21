@@ -61,12 +61,12 @@ if docker-compose exec -T wordpress wp core is-installed --allow-root 2>/dev/nul
 
     # Update site URLs
     docker-compose exec -T wordpress wp option update home "http://localhost:8080" --allow-root 2>/dev/null || true
-    docker-compose exec -T wordpress wp option update siteurl "http://localhost:8080/wordpress" --allow-root 2>/dev/null || true
+    docker-compose exec -T wordpress wp option update siteurl "http://localhost:8080/legacy-concierge" --allow-root 2>/dev/null || true
 
     print_status "URLs updated successfully!"
 else
     print_warning "WordPress is not installed yet."
-    print_warning "Please visit http://localhost:8080/wordpress/ to complete the installation."
+    print_warning "Please visit http://localhost:8080/legacy-concierge/ to complete the installation."
 fi
 
 # Activate essential plugins that should be available
@@ -96,7 +96,7 @@ print_status "🎉 Setup complete!"
 print_status ""
 print_status "🌐 Your Legacy Concierge site is available at:"
 print_status "   📱 Main Site: http://localhost:8080"
-print_status "   ⚙️  WordPress Admin: http://localhost:8080/wordpress/wp-admin/"
+print_status "   ⚙️  WordPress Admin: http://localhost:8080/legacy-concierge/wp-admin/"
 print_status "   🗄️  Database Admin: http://localhost:8081"
 print_status ""
 print_status "📊 Database Information:"

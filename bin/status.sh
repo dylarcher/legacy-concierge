@@ -132,12 +132,12 @@ show_wordpress_info() {
     echo -e "${CYAN}=== WordPress Information ===${NC}"
 
     # Check if WordPress files exist
-    if [ -f "wordpress/wp-config.php" ]; then
+    if [ -f "legacy-concierge/wp-config.php" ]; then
         echo -e "${GREEN}✓ WordPress installation found${NC}"
 
         # Try to get WordPress version
-        if [ -f "wordpress/wp-includes/version.php" ]; then
-            WP_VERSION=$(grep 'wp_version =' wordpress/wp-includes/version.php | cut -d "'" -f 2 2>/dev/null || echo "Unknown")
+        if [ -f "legacy-concierge/wp-includes/version.php" ]; then
+            WP_VERSION=$(grep 'wp_version =' legacy-concierge/wp-includes/version.php | cut -d "'" -f 2 2>/dev/null || echo "Unknown")
             echo -e "WordPress Version: ${GREEN}${WP_VERSION}${NC}"
         fi
 
@@ -203,9 +203,9 @@ show_security_check() {
     fi
 
     # Check wp-config.php permissions
-    if [ -f "wordpress/wp-config.php" ]; then
+    if [ -f "legacy-concierge/wp-config.php" ]; then
         echo -e "${GREEN}✓ WordPress config exists${NC}"
-        if grep -q "SECURE_AUTH_KEY" wordpress/wp-config.php; then
+        if grep -q "SECURE_AUTH_KEY" legacy-concierge/wp-config.php; then
             echo -e "${GREEN}✓ Security keys are configured${NC}"
         else
             echo -e "${YELLOW}⚠ Security keys may need updating${NC}"

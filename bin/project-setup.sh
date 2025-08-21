@@ -110,12 +110,12 @@ echo -e "${GREEN}✓ Project structure created${NC}"
 
 # Create symlinks for WordPress core (if using johnpbloch/wordpress-core)
 echo -e "${BLUE}Creating WordPress core symlinks...${NC}"
-if [ -d "wordpress" ]; then
+if [ -d "legacy-concierge" ]; then
     # Create symbolic links to WordPress core
-    ln -sf wordpress/wp-admin wp-admin 2>/dev/null || true
-    ln -sf wordpress/wp-includes wp-includes 2>/dev/null || true
-    ln -sf wordpress/index.php index.php 2>/dev/null || true
-    ln -sf wordpress/wp-config-sample.php wp-config-sample.php 2>/dev/null || true
+    ln -sf legacy-concierge/wp-admin wp-admin 2>/dev/null || true
+    ln -sf legacy-concierge/wp-includes wp-includes 2>/dev/null || true
+    ln -sf legacy-concierge/index.php index.php 2>/dev/null || true
+    ln -sf legacy-concierge/wp-config-sample.php wp-config-sample.php 2>/dev/null || true
 
     # Create other necessary WordPress files as symlinks
     for file in wordpress/wp-*.php; do

@@ -1,54 +1,54 @@
 {
-    "name": "my-org/legacy-concierge.wp",
-    "description": "Modern WordPress Project",
-    "type": "project",
-    "require": {
-        "php": ">=8.0",
-        "composer/installers": "^2.3",
-        "johnpbloch/wordpress-core-installer": "^2.0",
-        "johnpbloch/wordpress-core": "^6.4",
-        "vlucas/phpdotenv": "^5.6",
-        "wpackagist-plugin/a2-optimized-wp": "^3.0",
-        "wpackagist-plugin/all-in-one-wp-migration": "^7.97",
-        "wpackagist-plugin/bulkpress": "^0.3.5",
-        "wpackagist-plugin/classic-editor": "^1.6",
-        "wpackagist-plugin/classic-widgets": "^0.3.0",
-        "wpackagist-plugin/contact-form-7": "^6.1",
-        "wpackagist-plugin/easy-hide-login": "^1.6",
-        "wpackagist-plugin/elementor": "^3.31",
-        "wpackagist-plugin/envato-marketplace-widget": "^1.0",
-        "wpackagist-plugin/ewww-image-optimizer": "^8.2",
-        "wpackagist-plugin/google-site-kit": "^1.159",
-        "wpackagist-plugin/happy-elementor-addons": "^3.19",
-        "wpackagist-plugin/jetpack": "^14.9",
-        "wpackagist-plugin/lead-call-buttons": "^1.0",
-        "wpackagist-plugin/leadin": "^11.3",
-        "wpackagist-plugin/litespeed-cache": "^7.3",
-        "wpackagist-plugin/qi-addons-for-elementor": "^1.9",
-        "wpackagist-plugin/wordpress-seo": "^25.7",
-        "wpackagist-plugin/wp-sitemap-page": "^1.9",
-        "wpackagist-plugin/akismet": "^5.5"
-    },
-    "license": "proprietary",
-    "minimum-stability": "stable",
-    "repositories": {
-        "wpackagist": {
-            "type": "composer",
-            "url": "https://wpackagist.org"
-        }
-    },
-    "extra": {
-        "installer-paths": {
-            "wordpress/": "[\"type:wordpress-core\"]",
-            "wp-content/plugins/{$name}/": "[\"type:wordpress-plugin\"]",
-            "wp-content/themes/{$name}/": "[\"type:wordpress-theme\"]",
-            "wp-content/mu-plugins/{$name}/": "[\"type:wordpress-muplugin\"]"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "johnpbloch/wordpress-core-installer": true,
-            "composer/installers": true
-        }
+  "name": "my-org/legacy-concierge.wp",
+  "description": "Modern WordPress Project",
+  "type": "project",
+  "require": {
+    "php": ">=8.0",
+    "composer/installers": "^2.3",
+    "johnpbloch/wordpress-core-installer": "^2.0",
+    "johnpbloch/wordpress-core": "^6.4",
+    "vlucas/phpdotenv": "^5.6",
+    "wpackagist-plugin/a2-optimized-wp": "^3.0",
+    "wpackagist-plugin/all-in-one-wp-migration": "^7.97",
+    "wpackagist-plugin/bulkpress": "^0.3.5",
+    "wpackagist-plugin/classic-editor": "^1.6",
+    "wpackagist-plugin/classic-widgets": "^0.3.0",
+    "wpackagist-plugin/contact-form-7": "^6.1",
+    "wpackagist-plugin/easy-hide-login": "^1.6",
+    "wpackagist-plugin/elementor": "^3.31",
+    "wpackagist-plugin/envato-marketplace-widget": "^1.0",
+    "wpackagist-plugin/ewww-image-optimizer": "^8.2",
+    "wpackagist-plugin/google-site-kit": "^1.159",
+    "wpackagist-plugin/happy-elementor-addons": "^3.19",
+    "wpackagist-plugin/jetpack": "^14.9",
+    "wpackagist-plugin/lead-call-buttons": "^1.0",
+    "wpackagist-plugin/leadin": "^11.3",
+    "wpackagist-plugin/litespeed-cache": "^7.3",
+    "wpackagist-plugin/qi-addons-for-elementor": "^1.9",
+    "wpackagist-plugin/wordpress-seo": "^25.7",
+    "wpackagist-plugin/wp-sitemap-page": "^1.9",
+    "wpackagist-plugin/akismet": "^5.5"
+  },
+  "license": "proprietary",
+  "minimum-stability": "stable",
+  "repositories": {
+    "wpackagist": {
+      "type": "composer",
+      "url": "https://wpackagist.org"
     }
+  },
+  "extra": {
+    "installer-paths": {
+      "legacy-concierge/": "[\"type:wordpress-core\"]",
+      "wp-content/plugins/{$name}/": "[\"type:wordpress-plugin\"]",
+      "wp-content/themes/{$name}/": "[\"type:wordpress-theme\"]",
+      "wp-content/mu-plugins/{$name}/": "[\"type:wordpress-muplugin\"]"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "johnpbloch/wordpress-core-installer": true,
+      "composer/installers": true
+    }
+  }
 }

@@ -122,7 +122,7 @@ run_daily_maintenance() {
 
     # 4. Check for broken links (basic)
     print_info "4. Basic link check..."
-    curl -f -s "http://localhost:8080/wordpress/" > /dev/null && print_success "Site is accessible" || print_error "Site not accessible"
+    curl -f -s "http://localhost:8080/legacy-concierge/" > /dev/null && print_success "Site is accessible" || print_error "Site not accessible"
 
     # 5. Monitor disk space
     print_info "5. Disk space check..."
@@ -307,7 +307,7 @@ run_performance_audit() {
     # 4. Test site response time
     print_info "Testing site response time..."
     local response_time
-    response_time=$(curl -o /dev/null -s -w "%{time_total}" "http://localhost:8080/wordpress/" || echo "N/A")
+    response_time=$(curl -o /dev/null -s -w "%{time_total}" "http://localhost:8080/legacy-concierge/" || echo "N/A")
     echo "Response time: ${response_time}s" >> "$perf_log"
 
     print_info "Performance audit completed: $perf_log"
@@ -351,7 +351,7 @@ create_full_backup() {
 
     # Files backup
     print_info "Backing up files..."
-    tar --exclude='wp-content/cache' --exclude='*.log' -czf "$backup_path/wordpress_files.tar.gz" wp-content/ wordpress/ .htaccess 2>/dev/null || true
+    tar --exclude='wp-content/cache' --exclude='*.log' -czf "$backup_path/wordpress_files.tar.gz" wp-content/ legacy-concierge/ .htaccess 2>/dev/null || true
 
     # Configuration backup
     cp .env "$backup_path/.env.backup" 2>/dev/null || true
@@ -448,7 +448,7 @@ $(docker-compose ps)
 - **Tables:** $(docker exec "$DB_CONTAINER" mysql -u root -p"${DB_ROOT_PASSWORD}" -D "${DB_NAME}" -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='${DB_NAME}';" -s --skip-column-names 2>/dev/null || echo "Unknown")
 
 ### Performance Metrics
-- **Response Time:** $(curl -o /dev/null -s -w "%{time_total}" "http://localhost:8080/wordpress/" || echo "N/A")s
+- **Response Time:** $(curl -o /dev/null -s -w "%{time_total}" "http://localhost:8080/legacy-concierge/" || echo "N/A")s
 - **Disk Usage:** $(df -h . | tail -1 | awk '{print $5}')
 
 ### Security Status

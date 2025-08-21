@@ -115,7 +115,7 @@ pre_deployment_checks() {
 
     # Run WordPress tests
     print_info "Running WordPress health checks..."
-    if ! curl -f -s "http://localhost:8080/wordpress/" > /dev/null; then
+    if ! curl -f -s "http://localhost:8080/legacy-concierge/" > /dev/null; then
         print_error "WordPress site is not responding locally"
         exit 1
     fi
@@ -179,7 +179,7 @@ deploy_staging() {
 
     # Create staging file archive
     local staging_files="$BACKUP_DIR/staging_files_${DATE}.tar.gz"
-    tar --exclude='wp-content/uploads' --exclude='wp-content/cache' -czf "$staging_files" wp-content/ wordpress/ .htaccess
+    tar --exclude='wp-content/uploads' --exclude='wp-content/cache' -czf "$staging_files" wp-content/ legacy-concierge/ .htaccess
 
     print_success "Staging files prepared: $staging_files"
     print_warning "Upload and extract $staging_files to staging server"
@@ -210,7 +210,7 @@ deploy_production() {
 
     # Create production file archive
     local prod_files="$BACKUP_DIR/production_files_${DATE}.tar.gz"
-    tar --exclude='wp-content/uploads' --exclude='wp-content/cache' --exclude='wp-content/debug.log' -czf "$prod_files" wp-content/ wordpress/ .htaccess
+    tar --exclude='wp-content/uploads' --exclude='wp-content/cache' --exclude='wp-content/debug.log' -czf "$prod_files" wp-content/ legacy-concierge/ .htaccess
 
     print_success "Production files prepared: $prod_files"
     print_warning "Manual deployment steps:"

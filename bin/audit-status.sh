@@ -57,7 +57,7 @@ print_success "WordPress development environment fully operational"
 
 print_section "🌐 ACCESS POINTS"
 print_info "Main WordPress Site: http://localhost:8080"
-print_info "WordPress Admin: http://localhost:8080/wordpress/wp-admin/"
+print_info "WordPress Admin: http://localhost:8080/legacy-concierge/wp-admin/"
 print_info "Database Admin (phpMyAdmin): http://localhost:8081"
 
 print_section "🔧 DEVELOPMENT ENVIRONMENT"
@@ -69,7 +69,7 @@ print_info "Container Orchestration: Docker Compose"
 
 print_section "🚀 WHAT TO DO NEXT"
 print_next "1. Complete WordPress Installation"
-echo "   Visit: http://localhost:8080/wordpress/"
+echo "   Visit: http://localhost:8080/legacy-concierge/"
 echo "   Database: legacy_concierge_wp | User: wpuser | Pass: wppassword"
 echo ""
 

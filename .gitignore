@@ -57,7 +57,7 @@ wp-content/backups/
 # === MANAGED DEPENDENCIES (NEVER COMMIT) ===
 /vendor/
 /node_modules/
-/wordpress/
+/legacy-concierge/
 /wp-admin/
 /wp-includes/
 wp-*.php

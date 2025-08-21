@@ -63,5 +63,5 @@
     "version:minor": "npm version minor && npm run changelog:update",
     "version:patch": "npm version patch && npm run changelog:update"
   },
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

@@ -31,7 +31,7 @@ else
 fi
 
 # Default values (can be overridden in .env)
-LOCAL_WP_PATH="${LOCAL_WP_PATH:-$PROJECT_ROOT/wordpress}"
+LOCAL_WP_PATH="${LOCAL_WP_PATH:-$PROJECT_ROOT/legacy-concierge}"
 LOCAL_DB_NAME="${DB_NAME:-wordpress}"
 LOCAL_DB_USER="${DB_USER:-root}"
 LOCAL_DB_PASS="${DB_PASSWORD:-root}"
@@ -74,7 +74,7 @@ usage() {
     echo "  REMOTE_URL                 # Full URL of remote site"
     echo
     echo "Optional .env variables:"
-    echo "  LOCAL_WP_PATH              # Path to local WordPress (default: ./wordpress)"
+    echo "  LOCAL_WP_PATH              # Path to local WordPress (default: ./legacy-concierge)"
     echo "  STAGING_HOST, STAGING_USER, etc.  # For staging push operations"
 }
 
