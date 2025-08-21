@@ -1,0 +1,89 @@
+# === Modern WordPress .gitignore ===
+# Strategy: Ignore by default, whitelist only essential project files.
+
+# Ignore everything at root by default
+/*
+
+# === ESSENTIAL PROJECT FILES (WHITELIST) ===
+!.gitignore
+!.env.example
+!composer.json
+!composer.lock
+!package.json
+!README.md
+!LICENSE
+!CHANGELOG.md
+!CITATION.cff
+
+# === BUILD & DEPLOYMENT ===
+!.github/
+!bin/
+!.deployignore
+!.editorconfig
+
+# === CUSTOM CODE DIRECTORIES ===
+!wp-content/
+wp-content/*
+!wp-content/mu-plugins/
+!wp-content/themes/
+!wp-content/plugins/
+
+# Ignore all themes and plugins by default
+wp-content/themes/*
+wp-content/plugins/*
+
+# === CUSTOM PROJECT CODE (WHITELIST YOUR CUSTOM WORK) ===
+# Only uncomment/add your actual custom code:
+# !wp-content/themes/my-custom-theme/
+# !wp-content/plugins/my-custom-plugin/
+!wp-content/plugins/index.php
+!wp-content/themes/index.php
+
+# === PROJECT COMPONENTS & UTILITIES ===
+!components/
+!sigimg/
+
+# === SENSITIVE & ENVIRONMENT FILES (NEVER COMMIT) ===
+.env
+wp-config.php
+.htaccess
+
+# === STATEFUL DATA (NEVER COMMIT) ===
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/backups/
+
+# === MANAGED DEPENDENCIES (NEVER COMMIT) ===
+/vendor/
+/node_modules/
+/wordpress/
+/wp-admin/
+/wp-includes/
+wp-*.php
+
+# === SYSTEM & BUILD FILES ===
+.DS_Store
+Thumbs.db
+*.log
+.tmp/
+.backup/
+.db/
+
+# === DOCKER & LOCAL DEV ===
+docker-compose.override.yml
+mysql/
+.vscode/
+.dockerignore
+Dockerfile
+docker-compose.yml
+*.log
+
+# ==================================================================
+# Composer Managed Directories
+# ==================================================================
+# Ignore the WordPress core directory managed by Composer
+/wp/
+
+# Ignore the vendor directory (redundant safety check)
+/vendor/

@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "npm" # Javascript environment package manager
+    directory: "/" # Location of package manifest: project's ROOT directory
+    schedule:
+      interval: "weekly"

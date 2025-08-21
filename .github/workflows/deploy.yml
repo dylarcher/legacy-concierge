@@ -1,0 +1,168 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment only on pushes to the main branch
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production  # Use GitHub environment for additional security
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, json, tokenizer, curl, zip
+          coverage: none
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Setup Node.js (if needed for theme assets)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Node Dependencies (if package.json exists)
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          fi
+
+      - name: Build Frontend Assets (if build script exists)
+        run: |
+          if [ -f package.json ] && npm run | grep -q "build"; then
+            npm run build
+          fi
+
+      - name: Create deployment archive
+        run: |
+          # Create a clean deployment directory
+          mkdir -p deploy-temp
+
+          # Copy necessary files (excluding development files)
+          rsync -av --exclude-from=.deployignore \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='.env' \
+            --exclude='.env.example' \
+            --exclude='README.md' \
+            --exclude='CHANGELOG.md' \
+            --exclude='*.md' \
+            --exclude='tests/' \
+            --exclude='deploy-temp/' \
+            ./ deploy-temp/
+
+      - name: Deploy files to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          script: |
+            # Define deployment paths
+            DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
+            BACKUP_PATH="${DEPLOY_PATH}_backup_$(date +%Y%m%d_%H%M%S)"
+
+            # Create backup of current deployment
+            if [ -d "$DEPLOY_PATH" ]; then
+              echo "Creating backup at $BACKUP_PATH"
+              cp -r "$DEPLOY_PATH" "$BACKUP_PATH"
+            fi
+
+            # Create deployment directory if it doesn't exist
+            mkdir -p "$DEPLOY_PATH"
+
+      - name: Transfer files via rsync
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -azvr --delete --exclude-from=.deployignore
+          path: deploy-temp/
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+          remote_port: ${{ secrets.DEPLOY_PORT || 22 }}
+
+      - name: Run Post-Deployment Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+
+            # Set proper permissions
+            find . -type d -exec chmod 755 {} \;
+            find . -type f -exec chmod 644 {} \;
+            chmod 600 .env 2>/dev/null || true
+
+            # Run Composer install on production
+            if command -v composer &> /dev/null; then
+              composer install --no-dev --optimize-autoloader --no-interaction
+            fi
+
+            # Clear WordPress caches if WP-CLI is available
+            if command -v wp &> /dev/null; then
+              wp cache flush --allow-root --path=${{ secrets.DEPLOY_PATH }} || true
+              wp rewrite flush --allow-root --path=${{ secrets.DEPLOY_PATH }} || true
+            fi
+
+            # Clear object cache (if using Redis/Memcached)
+            if command -v redis-cli &> /dev/null; then
+              redis-cli flushall || true
+            fi
+
+            echo "Deployment completed successfully!"
+
+      - name: Cleanup old backups (keep last 5)
+        uses: appleboy/ssh-action@v1.0.3
+        if: always()
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          script: |
+            # Clean up old backups (keep only the 5 most recent)
+            BACKUP_DIR=$(dirname "${{ secrets.DEPLOY_PATH }}")
+            BACKUP_PREFIX=$(basename "${{ secrets.DEPLOY_PATH }}")_backup_
+            cd "$BACKUP_DIR"
+            ls -t | grep "^${BACKUP_PREFIX}" | tail -n +6 | xargs -r rm -rf
+            echo "Backup cleanup completed"
+
+      - name: Notify deployment status
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ job.status }}
+          text: |
+            Deployment ${{ job.status }}!
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

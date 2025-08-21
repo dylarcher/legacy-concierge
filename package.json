@@ -1,0 +1,67 @@
+{
+  "author": "Dylan Archer <dylarcher@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/dylarcher/legacy-concierge/issues"
+  },
+  "contributors": [
+    {
+      "email": "dylarcher@gmail.com",
+      "name": "Dylan Archer"
+    }
+  ],
+  "description": "A simple package.json for managing a WordPress project with Docker Compose.",
+  "displayName": "Legacy Concierge",
+  "homepage": "https://github.com/dylarcher/legacy-concierge#readme",
+  "license": "MIT",
+  "name": "legacy-concierge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dylarcher/legacy-concierge.git"
+  },
+  "scripts": {
+    "changelog": "node bin/generate-changelog.js",
+    "changelog:update": "npm run changelog && git add CHANGELOG.md",
+    "changelog:patch": "npm version patch && npm run changelog",
+    "changelog:minor": "npm version minor && npm run changelog",
+    "changelog:major": "npm version major && npm run changelog",
+    "setup": "./bin/project-setup.sh",
+    "clean": "./bin/clean-repo.sh",
+    "deploy": "./bin/deploy.sh",
+    "db:sync": "./bin/db-sync.sh",
+    "theme:manage": "./bin/theme-manager.sh",
+    "status": "./bin/status.sh",
+    "security:check": "./bin/security-checks.sh",
+    "maintenance": "./bin/maintenance.sh",
+    "docker:backup": "docker-compose exec db bash -c 'mysqladump -u wpuser -p wppassword legacy_concierge_wp > /.backup/legacy_concierge_wp-$npm_package_version.sql'",
+    "docker:build": "docker-compose up -d --build",
+    "docker:db": "docker-compose up -d db",
+    "docker:down": "docker-compose down",
+    "docker:exec:mysql": "docker-compose exec db bash",
+    "docker:exec:wp": "docker-compose exec wordpress bash",
+    "docker:log10": "docker-compose logs --tail=10 wordpress",
+    "docker:logs": "docker-compose logs -f",
+    "docker:ps": "docker-compose ps",
+    "docker:pull": "docker-compose pull",
+    "docker:restart": "docker-compose restart",
+    "docker:start": "docker-compose start",
+    "docker:stop": "docker-compose stop",
+    "docker:up": "docker-compose up -d",
+    "git:checkin": "./bin/git-workflow.sh checkin",
+    "git:status": "./bin/git-workflow.sh status",
+    "plugins:install": "./bin/install-plugins.sh install essential",
+    "plugins:update": "./bin/install-plugins.sh update",
+    "deploy:staging": "./bin/deploy.sh deploy staging",
+    "deploy:production": "./bin/deploy.sh deploy production",
+    "health:check": "./bin/health-check.sh",
+    "status:full": "./bin/status.sh",
+    "maintenance:run": "./bin/maintenance.sh",
+    "security:audit": "./bin/security-checks.sh",
+    "database:optimize": "./bin/optimize-database.sh",
+    "database:backup": "./bin/wp-database-backup.sh",
+    "theme:update": "./bin/deploy.sh theme-update",
+    "version:patch": "npm version patch && npm run changelog:update",
+    "version:minor": "npm version minor && npm run changelog:update",
+    "version:major": "npm version major && npm run changelog:update"
+  },
+  "version": "1.0.0"
+}
