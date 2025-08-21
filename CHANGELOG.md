@@ -5,6 +5,23 @@ All notable changes to **Legacy Concierge WordPress** will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-08-21
+
+### Fixed
+
+- Resolved "Error establishing a database connection" issues
+- Fixed WordPress configuration path resolution for subdirectory installation
+- Corrected wp-config.php file paths for .env loading and vendor autoloader
+- Fixed ABSPATH constant redefinition warning
+- Updated Docker healthcheck to properly monitor WordPress in /wordpress/ subdirectory
+- Resolved 500 internal server errors and PHP parse errors
+
+### Changed
+
+- WordPress now properly serves from both root (/) and `/wordpress/` paths
+- Simplified wp-config.php configuration for better reliability
+- Updated site URLs to support both `http://localhost:8080` and `http://localhost:8080/wordpress/`
+
 ## [1.0.0] - 2025-08-21
 
 ### Added

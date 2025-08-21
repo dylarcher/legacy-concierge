@@ -1,6 +1,6 @@
 # Legacy Concierge WordPress - Complete Project Guide
 
-**Project Status**: Production Ready | **Last Updated**: August 20, 2025
+**Project Status**: Production Ready | **Last Updated**: August 21, 2025
 **Environment**: Docker Containerized WordPress with MySQL 8.0
 
 ---
@@ -20,33 +20,23 @@ cd /Users/darcher/dev/legacy-concierge
 docker-compose up -d
 ```
 
-### Environment Setup
-
-1. **Copy Environment Variables**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-2. **Configure Database Settings** (edit `.env` file)
-
-   ```bash
-   DB_NAME=legacy_concierge_wp
-   DB_USER=wpuser
-   DB_PASSWORD=your_secure_password
-   DB_ROOT_PASSWORD=your_root_password
-   WP_HOME=http://localhost:8080
-   WP_SITEURL=${WP_HOME}
-   ```
-
-3. **Generate Security Keys**
-   Visit <https://api.wordpress.org/secret-key/1.1/salt/> and replace the keys in `.env`
-
 ### Access Points
 
-- **Website**: <http://localhost:8080>
-- **WordPress Admin**: <http://localhost:8080/wp-admin/>
+- **Website**: <http://localhost:8080> or <http://localhost:8080/wordpress/>
+- **WordPress Admin**: <http://localhost:8080/wordpress/wp-admin/>
 - **Database Admin (phpMyAdmin)**: <http://localhost:8081>
+- **Database**: `legacyh2_a2wp612` with table prefix `wpyu_`
+
+### Pre-configured Database
+
+The environment comes with a complete database import from the production site:
+
+- **Database Name**: `legacyh2_a2wp612`
+- **Table Prefix**: `wpyu_`
+- **Content**: Full production data matching <https://legacyconcierge.com/>
+- **Users**: Admin credentials from production (you may need to reset passwords)
+
+**Note**: The database is automatically imported and configured when you first run `docker-compose up -d`.
 
 ### Monitoring & Maintenance
 
@@ -91,6 +81,47 @@ npm run docker:backup            # Backup database
 
 **Tracked** ✅: Custom themes, plugins, configuration, documentation
 **Ignored** ❌: WordPress core, third-party plugins, uploads, cache
+
+---
+
+## 🔧 Troubleshooting
+
+### Database Connection Issues
+
+If you encounter "Error establishing a database connection":
+
+```bash
+# Check container status
+docker-compose ps
+
+# Restart containers if needed
+docker-compose restart
+```
+
+### URL and Path Issues
+
+For 404 errors accessing wp-admin:
+
+- Use the correct path: `http://localhost:8080/wordpress/wp-admin/`
+- The WordPress installation is in a `/wordpress/` subdirectory
+
+### Container Health Check Failures
+
+```bash
+# Check container logs
+docker-compose logs wordpress
+
+# Rebuild containers if needed
+docker-compose down
+docker-compose up --build -d
+```
+
+### Database Configuration
+
+- Database is pre-configured with production data
+- Default credentials: `wpuser` / `wppassword`
+- Database name: `legacyh2_a2wp612`
+- Table prefix: `wpyu_`
 
 ---
 
