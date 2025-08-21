@@ -16,15 +16,37 @@
 ### Launch Environment
 
 ```bash
-cd /Users/darcher/dev/legacy-concierge.wp
+cd /Users/darcher/dev/legacy-concierge
 docker-compose up -d
 ```
+
+### Environment Setup
+
+1. **Copy Environment Variables**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Configure Database Settings** (edit `.env` file)
+
+   ```bash
+   DB_NAME=legacy_concierge_wp
+   DB_USER=wpuser
+   DB_PASSWORD=your_secure_password
+   DB_ROOT_PASSWORD=your_root_password
+   WP_HOME=http://localhost:8080
+   WP_SITEURL=${WP_HOME}
+   ```
+
+3. **Generate Security Keys**
+   Visit <https://api.wordpress.org/secret-key/1.1/salt/> and replace the keys in `.env`
 
 ### Access Points
 
 - **Website**: <http://localhost:8080>
-- **WordPress Admin**: <http://localhost:8080/wordpress/wp-admin/>
-- **Database Admin**: <http://localhost:8081>
+- **WordPress Admin**: <http://localhost:8080/wp-admin/>
+- **Database Admin (phpMyAdmin)**: <http://localhost:8081>
 
 ### Monitoring & Maintenance
 
@@ -102,18 +124,23 @@ npm run docker:backup            # Backup database
 ### File Structure
 
 ```plaintext
-legacy-concierge.wp/
+legacy-concierge/
 ├── 🐳 docker-compose.yml     # Container orchestration
 ├── 🐳 Dockerfile            # Custom WordPress container
-├── 🔐 .env                  # Environment variables
+├── 🔐 .env.example          # Environment variables template
 ├── 📦 composer.json         # PHP dependencies
 ├── ⚙️  wp-config.php         # WordPress configuration
-├── 🛠️  bin/                  # Utility scripts
+├── 🛠️  bin/                  # Utility scripts (17 scripts)
 ├── 🎨 components/           # React components
 ├── 🖼️  sigimg/              # Signature images
-├── 📚 docs/                 # This documentation
-├── 🗃️  wordpress/           # WordPress core
-└── 🎭 wp-content/           # Themes, plugins, uploads
+├── �️  wordpress/           # WordPress core (Composer managed)
+├── 🎭 wp-content/           # Themes, plugins, uploads
+├── 📁 .backup/              # Archived backups (*.tar.gz)
+├── �️  .db/                 # Database dumps
+├── 📂 .tmp/                 # Temporary WordPress files
+├── ⚙️  .vscode/             # VS Code configuration
+├── 🏗️  .github/             # GitHub Actions & templates
+└── 🐋 mysql/               # MySQL configuration
 ```
 
 ---
@@ -142,11 +169,21 @@ docker-compose exec wordpress bash
 ### Site Management
 
 ```bash
-# Run setup
-./bin/setup-site-simple.sh
+# Run initial setup
+./bin/setup-site.sh
 
-# Check status
+# Check comprehensive status
 ./bin/status.sh
+
+# Audit system health
+./bin/audit-status.sh
+
+# Health check monitoring
+./bin/health-check.sh
+
+# Database operations
+./bin/optimize-database.sh
+./bin/wp-database-backup.sh
 
 # Install plugins
 ./bin/install_plugins.sh

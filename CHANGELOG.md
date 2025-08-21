@@ -1,3 +1,12 @@
 # Changelog
 
-Catalogs library course maintaining a comprehensive history index. Automates change records and timeline progression references for our beloved project **Legacy Concierge**.
+All notable changes to **Legacy Concierge WordPress** will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] - Unreleased
+
+---
+
+*This changelog was automatically generated on 2025-08-21*
